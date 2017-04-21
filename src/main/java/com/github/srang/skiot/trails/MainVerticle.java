@@ -2,6 +2,7 @@ package com.github.srang.skiot.trails;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
+import io.vertx.core.http.HttpServer;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
 
@@ -11,9 +12,12 @@ import io.vertx.ext.web.Router;
 public class MainVerticle extends AbstractVerticle {
   @Override
   public void start(Future<Void> fut) {
-    vertx.createHttpServer().requestHandler(r -> {
-      r.response().end(new JsonObject().put("message", "Hello from my first Vert.x 3 application").encode());
-    }).listen(8080, result -> {
+    HttpServer server = vertx.createHttpServer();
+    Router r = Router.router(vertx);
+    r.route("/health").handler(routingContext -> {
+      routingContext.response().end(new JsonObject().put("message", "Hello from my first Vert.x 3 application").encode());
+    });
+    server.requestHandler(r::accept).listen(Integer.valueOf(System.getenv("APPLICATION_PORT")), result -> {
       if (result.succeeded()) {
         fut.complete();
       } else {

@@ -11,7 +11,6 @@ import io.vertx.ext.web.Router;
  */
 public class Application {
   public static void main (String[] args) {
-    Vertx.vertx().deployVerticle("scala:com.github.srang.skiot.trails.TrailVerticle");
     Vertx.vertx().deployVerticle("com.github.srang.skiot.trails.MainVerticle");
   }
 }
