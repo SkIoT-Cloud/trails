@@ -9,7 +9,7 @@ import io.vertx.ext.web.Router;
 /**
  * Created by samuelrang on 4/20/2017.
  */
-public class MainVerticle extends AbstractVerticle {
+public class TrailVerticle extends AbstractVerticle {
   @Override
   public void start(Future<Void> fut) {
     HttpServer server = vertx.createHttpServer();
@@ -17,7 +17,7 @@ public class MainVerticle extends AbstractVerticle {
     r.route("/health").handler(routingContext -> {
       routingContext.response().end(new JsonObject().put("message", "Hello from my first Vert.x 3 application").encode());
     });
-    server.requestHandler(r::accept).listen(Integer.valueOf(System.getenv("APPLICATION_PORT")), result -> {
+    server.requestHandler(r::accept).listen(Integer.valueOf(8080), result -> {
       if (result.succeeded()) {
         fut.complete();
       } else {

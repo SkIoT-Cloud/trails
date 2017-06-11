@@ -1,14 +1,11 @@
 node {
-   def mvnHome
-   stage('Preparation') { // for display purposes
-      // Get some code from a GitHub repository
-      git 'https://github.com/SkIoT-Cloud/trails-service.git'
-      // Get the Maven tool.
-      // ** NOTE: This 'M3' Maven tool must be configured
-      // **       in the global configuration.
-      mvnHome = tool 'mvn'
-   }
-   stage('Build') {
-      sh "'${mvnHome}/bin/mvn' clean package"
-   }
+    stage('Maven') { // for display purposes
+        git url: 'https://github.com/cyrille-leclerc/multi-module-maven-project'
+        withMaven(maven: 'M3') {
+            sh "mvn clean install"
+        }
+    }
+    stage('Docker') {
+        sh "'${mvnHome}/bin/mvn' clean package"
+    }
 }
