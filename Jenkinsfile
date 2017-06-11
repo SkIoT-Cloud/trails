@@ -1,11 +1,8 @@
-node {
-    stage('Maven') { // for display purposes
-        git url: 'https://github.com/cyrille-leclerc/multi-module-maven-project'
-        withMaven(maven: 'M3') {
-            sh "mvn clean install"
-        }
+node('maven') {
+    stage('build') { // for display purposes
+       openshiftBuild(buildConfig: 'trails-service', showBuildLogs: 'true')
     }
-    stage('Docker') {
-        sh "'${mvnHome}/bin/mvn' clean package"
+    stage('deploy') {
+       openshiftDeploy(deploymentConfig: 'frontend')
     }
 }
